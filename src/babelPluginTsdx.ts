@@ -2,14 +2,6 @@ import { createConfigItem } from '@babel/core';
 import { createBabelInputPluginFactory } from '@rollup/plugin-babel';
 import merge from 'lodash.merge';
 
-export const isTruthy = (obj?: any) => {
-  if (!obj) {
-    return false;
-  }
-
-  return obj.constructor !== Object || Object.keys(obj).length > 0;
-};
-
 // replace lodash with lodash-es, but not lodash/fp
 const replacements = [{ original: 'lodash(?!/fp)', replacement: 'lodash-es' }];
 
@@ -84,7 +76,7 @@ export const babelPluginTsdx = createBabelInputPluginFactory(() => ({
           name: '@babel/plugin-proposal-class-properties',
           loose: true,
         },
-        isTruthy(customOptions.extractErrors) && {
+        customOptions.extractErrors && {
           name: './errors/transformErrorMessages',
         },
       ].filter(Boolean)
